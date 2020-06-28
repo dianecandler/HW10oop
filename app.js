@@ -10,6 +10,37 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+const render = require(./lib/htmlRenderer.js)
+
+// Start here - above provided
+// Set up questions like Readme with function to prompt inquirer followed by .then(functio with if, else if to query manager, intern, Engineer, NaN if completed to fill out HTML template)
+// add console.log("something went wrong") to capture errors - have this follow the above if, else if with another else
+
+let team = [];
+
+function promptManager (){
+    inquirer.prompt ([
+{
+        type: "input",
+        name: "id",
+        message: "What is the employee ID?"
+    },
+    {
+        type: "input",
+        name: "name"
+        message: "What is the employee name?"
+    },
+    {
+        type: "input",
+        name: "OfficeNumber",
+        message: "What is the manager's office number?"
+    }
+])  .then(functions(??){
+    team.puish(new Manager(?? ask for name, id, email, officeNumber));
+    promtp??();
+});
+}
+// add function prompt and call inquirer.prompt
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
