@@ -1,45 +1,163 @@
-const Manager = require("./lib/Manager");
-const Engineer = require("./lib/Engineer");
-const Intern = require("./lib/Intern");
-const inquirer = require("inquirer");
-const path = require("path");
-const fs = require("fs");
+/* Global variables requiring library files.js*/
+const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
+const render = require('./lib/htmlRenderer');
 
-const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
+/* Calling NPM packages*/
+const inquirer = require('inquirer');
+const path = require('path');
+const fs = require('fs');
 
-const render = require("./lib/htmlRenderer");
-
-const render = require(./lib/htmlRenderer.js)
+/* Creating the "output" directory to store our team.html*/
+// const OUTPUT_DIR = path.resolve(__dirname, "output");
+// const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 // Start here - above provided
 // Set up questions like Readme with function to prompt inquirer followed by .then(functio with if, else if to query manager, intern, Engineer, NaN if completed to fill out HTML template)
 // add console.log("something went wrong") to capture errors - have this follow the above if, else if with another else
 
-let team = [];
+function createTeam () {
+	return inquirer
+		.prompt([
+			{
+				name: 'employeeType',
+				type: 'list',
+				message: 'Please select an Employee type to add to your team',
+				choices: [ 'Manager', 'Engineer', 'Intern' ]
+			},
+			{
+				name: 'employeeName',
+				type: 'input',
+				message: 'What is the Employee name'
+			},
+			{
+				name: 'employeeId',
+				type: 'input',
+				message: 'What is the Employee ID'
+			},
+			{
+				name: 'employeeEmail',
+				type: 'input',
+				message: 'What is the Employee email?'
+			}
+		])
+		.then(function (response) {
+			const { employeeType } = response;
 
-function promptManager (){
-    inquirer.prompt ([
-{
-        type: "input",
-        name: "id",
-        message: "What is the employee ID?"
-    },
-    {
-        type: "input",
-        name: "name"
-        message: "What is the employee name?"
-    },
-    {
-        type: "input",
-        name: "OfficeNumber",
-        message: "What is the manager's office number?"
-    }
-])  .then(functions(??){
-    team.puish(new Manager(?? ask for name, id, email, officeNumber));
-    promtp??();
-});
+			switch (employeeType) {
+				case 'Manager':
+					createManager(response);
+					break;
+				case 'Engineer':
+					createEngineer(response);
+					break;
+				case 'Intern':
+					createIntern(response);
+					break;
+				default:
+					break;
+			}
+		});
 }
+
+let employees = [];
+
+function createManager (employeeInfo) {
+	inquirer
+		.prompt([
+			{
+				name: 'officeNumber',
+				type: 'input',
+				message: "What is the Manager's office number?"
+			},
+			{
+				name: 'done',
+				type: 'confirm',
+				Message: 'We are done adding employees'
+			}
+		])
+		.then(function (response) {
+			const { employeeName, employeeId, employeeEmail } = employeeInfo;
+			const { officeNumber } = response;
+
+			let newManager = new Manager(employeeName, employeeId, employeeEmail, officeNumber);
+			employees.push(newManager);
+			if (response.done) {
+				compileAllEmployees();
+			}
+			else {
+				createTeam();
+			}
+		});
+}
+
+function createEngineer (employeeInfo) {
+	inquirer
+		.prompt([
+			{
+				name: 'github',
+				type: 'input',
+				message: "What is the Engineer's github account?"
+			},
+			{
+				name: 'done',
+				type: 'confirm',
+				Message: 'Are we done adding employees?'
+			}
+		])
+		.then(function (response) {
+			const { employeeName, employeeId, employeeEmail } = employeeInfo;
+			const { github } = response;
+
+			let newEngineer = new Engineer(employeeName, employeeId, employeeEmail, github);
+			employees.push(newEngineer);
+			if (response.done) {
+				compileAllEmployees();
+			}
+			else {
+				createTeam();
+			}
+		});
+}
+
+function createIntern (employeeInfo) {
+	inquirer
+		.prompt([
+			{
+				name: 'school',
+				type: 'input',
+				message: "What is the Intern's school?"
+			},
+			{
+				name: 'done',
+				type: 'confirm',
+				Message: 'Are we done adding employees?'
+			}
+		])
+		.then(function (response) {
+			const { employeeName, employeeId, employeeEmail } = employeeInfo;
+			const { school } = response;
+
+			let newIntern = new Intern(employeeName, employeeId, employeeEmail, school);
+			employees.push(newIntern);
+			if (response.done) {
+				compileAllEmployees();
+			}
+			else {
+				createTeam();
+			}
+		});
+}
+
+function compileAllEmployees () {
+	fs.writeFile('output/team.html', render(employees), function (err, data) {
+		console.log('Good job compiling your Team!');
+	});
+}
+
+createTeam();
+
 // add function prompt and call inquirer.prompt
 
 // Write code to use inquirer to gather information about the development team members,
