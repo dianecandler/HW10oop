@@ -1,4 +1,4 @@
-er
+
 This command line application prompts users for input related to their team members in order to generate an HTML page displaying a manager and multiple engineers and interns.
 
 # Included Files
@@ -20,4 +20,4 @@ Pull requests are welcome.  For major changes, please open an issue first to dis
 Please make sure to update tests as appropriate.
 
 # Acknowledgements
-Many thanks to my The University of Texas at AUstin instructor, TA, and tutors.
+Many thanks to my instructor, TA, and tutors at The University of Texas at AUstin.
