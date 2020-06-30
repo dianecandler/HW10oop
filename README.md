@@ -24,4 +24,4 @@ Pull requests are welcome.  For major changes, please open an issue first to dis
 Please make sure to update tests as appropriate.
 
 # Acknowledgements
-Many thanks to my instructor, TA, and tutors at The University of Texas at AUstin.
+Many thanks to my instructor, TA, and tutors at The University of Texas at Austin.
